@@ -1,0 +1,6 @@
+@TestRpiApi_HostAddress = http://localhost:5159
+
+GET {{TestRpiApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
