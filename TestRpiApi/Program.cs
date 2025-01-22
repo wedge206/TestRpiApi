@@ -53,8 +53,15 @@ namespace TestRpiApi
 
                 Console.WriteLine("Worker 1 pass");
             }
-            catch
+            catch (PcanBasicException e)
             {
+                Console.WriteLine($"handle point 2: {e.Data}");
+                Console.WriteLine($"handle point 2: {e.Error}");
+                Console.WriteLine($"handle point 2: {e.Message}");
+                Console.WriteLine($"handle point 2: {e.ApiFunction}");
+                Console.WriteLine($"handle point 2: {e.InnerException}");
+                Console.WriteLine($"handle point 2: {e.HelpLink}");
+
                 Console.WriteLine("Worker 1 fail");
             }
 
