@@ -41,21 +41,30 @@ namespace TestRpiApi
         {
             try
             {
-               // PcanStatus result = Api.Initialize(PcanChannel.Usb01, Bitrate.Pcan1000);
+                // PcanStatus result = Api.Initialize(PcanChannel.Usb01, Bitrate.Pcan1000);
 
                 //Console.WriteLine("CAN Init Result: " + result.ToString());
 
                 canWorker.MessageAvailable += OnCanMessageAvailable;
-           //     canWorker.AddFilter(new FilteringCriterion()
-             //   {
-               //     // TODO Add filters
+                //     canWorker.AddFilter(new FilteringCriterion()
+                //   {
+                //     // TODO Add filters
                 //});
                 canWorker.Start(false, false, true);
                 Console.WriteLine("handle point 1");
             }
+            catch (PcanBasicException e)
+            {
+                Console.WriteLine($"handle point 2: {e.Data}");
+                Console.WriteLine($"handle point 2: {e.Error}");
+                Console.WriteLine($"handle point 2: {e.Message}");
+                Console.WriteLine($"handle point 2: {e.ApiFunction}");
+                Console.WriteLine($"handle point 2: {e.InnerException}");
+                throw;
+            }
             catch (Exception)
             {
-                Console.WriteLine("handle point 2");
+                Console.WriteLine("handle point 3");
                 throw;
             }
         }
