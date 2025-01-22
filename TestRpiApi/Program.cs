@@ -32,11 +32,180 @@ namespace TestRpiApi
 
 
             app.MapControllers();
-
+            TestWorkers();
             InitPcan();
 
             app.Run();
         }
+
+        private static void TestWorkers()
+        {
+            try
+            {
+                var w1 = new Worker()
+                {
+                    BitrateCan = Bitrate.Pcan1000,
+                    Channel = PcanChannel.Usb01
+                };
+
+                w1.MessageAvailable += OnCanMessageAvailable;
+                w1.Start();
+
+                Console.WriteLine("Worker 1 pass");
+            }
+            catch
+            {
+                Console.WriteLine("Worker 1 fail");
+            }
+
+
+            try
+            {
+                var w1 = new Worker()
+                {
+                    BitrateCan = Bitrate.Pcan1000,
+                    Channel = PcanChannel.Usb02
+                };
+
+                w1.MessageAvailable += OnCanMessageAvailable;
+                w1.Start();
+
+                Console.WriteLine("Worker 2 pass");
+            }
+            catch
+            {
+                Console.WriteLine("Worker 2 fail");
+            }
+
+            try
+            {
+                var w1 = new Worker()
+                {
+                    BitrateCan = Bitrate.Pcan1000,
+                    Channel = PcanChannel.Usb03
+                };
+
+                w1.MessageAvailable += OnCanMessageAvailable;
+                w1.Start();
+
+                Console.WriteLine("Worker 3 pass");
+            }
+            catch
+            {
+                Console.WriteLine("Worker 3 fail");
+            }
+
+            try
+            {
+                var w1 = new Worker()
+                {
+                    BitrateCan = Bitrate.Pcan1000,
+                    Channel = PcanChannel.Usb04
+                };
+
+                w1.MessageAvailable += OnCanMessageAvailable;
+                w1.Start();
+
+                Console.WriteLine("Worker 4 pass");
+            }
+            catch
+            {
+                Console.WriteLine("Worker 4 fail");
+            }
+
+            try
+            {
+                var w1 = new Worker()
+                {
+                    BitrateCan = Bitrate.Pcan1000,
+                    Channel = PcanChannel.Usb05
+                };
+
+                w1.MessageAvailable += OnCanMessageAvailable;
+                w1.Start();
+
+                Console.WriteLine("Worker 5 pass");
+            }
+            catch
+            {
+                Console.WriteLine("Worker 5 fail");
+            }
+
+            try
+            {
+                var w1 = new Worker()
+                {
+                    BitrateCan = Bitrate.Pcan1000,
+                    Channel = PcanChannel.Usb06
+                };
+
+                w1.MessageAvailable += OnCanMessageAvailable;
+                w1.Start();
+
+                Console.WriteLine("Worker 6 pass");
+            }
+            catch
+            {
+                Console.WriteLine("Worker 6 fail");
+            }
+
+            try
+            {
+                var w1 = new Worker()
+                {
+                    BitrateCan = Bitrate.Pcan1000,
+                    Channel = PcanChannel.Usb07
+                };
+
+                w1.MessageAvailable += OnCanMessageAvailable;
+                w1.Start();
+
+                Console.WriteLine("Worker 7 pass");
+            }
+            catch
+            {
+                Console.WriteLine("Worker 7 fail");
+            }
+
+            try
+            {
+                var w1 = new Worker()
+                {
+                    BitrateCan = Bitrate.Pcan1000,
+                    Channel = PcanChannel.Usb08
+                };
+
+                w1.MessageAvailable += OnCanMessageAvailable;
+                w1.Start();
+
+                Console.WriteLine("Worker 8 pass");
+            }
+            catch
+            {
+                Console.WriteLine("Worker 8 fail");
+            }
+
+            try
+            {
+                var w1 = new Worker()
+                {
+                    BitrateCan = Bitrate.Pcan1000,
+                    Channel = PcanChannel.Usb09
+                };
+
+                w1.MessageAvailable += OnCanMessageAvailable;
+                w1.Start();
+
+                Console.WriteLine("Worker 9 pass");
+            }
+            catch
+            {
+                Console.WriteLine("Worker 9 fail");
+            }
+
+
+        }
+
 
         private static void InitPcan()
         {
