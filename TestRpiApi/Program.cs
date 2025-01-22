@@ -4,7 +4,13 @@ namespace TestRpiApi
 {
     public class Program
     {
-        static Worker canWorker = new Worker();
+        static Worker canWorker = new Worker()
+        {
+            TransmissionProtocol = Protocol.Can,
+            BitrateCan = Bitrate.Pcan1000,
+            Channel = PcanChannel.Usb01
+        };
+
         static byte[] canBytes = new byte[8];
 
 
@@ -34,9 +40,9 @@ namespace TestRpiApi
         {
             try
             {
-                PcanStatus result = Api.Initialize(PcanChannel.Usb01, Bitrate.Pcan1000);
+               // PcanStatus result = Api.Initialize(PcanChannel.Usb01, Bitrate.Pcan1000);
 
-                Console.WriteLine("CAN Init Result: " + result.ToString());
+                //Console.WriteLine("CAN Init Result: " + result.ToString());
 
                 canWorker.MessageAvailable += OnCanMessageAvailable;
                 canWorker.AddFilter(new FilteringCriterion()
