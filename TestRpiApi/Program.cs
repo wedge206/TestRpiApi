@@ -44,7 +44,7 @@ namespace TestRpiApi
                 //   {
                 //     // TODO Add filters
                 //});
-                canWorker.Start(false, false, true);
+                canWorker.Start();
             }
             catch (PcanBasicException e)
             {
