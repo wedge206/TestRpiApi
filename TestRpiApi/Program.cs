@@ -16,6 +16,7 @@ namespace TestRpiApi
 
         public static void Main(string[] args)
         {
+            Api.SetValue(PcanChannel.Usb01, PcanParameter.AllowEchoFrames, 1);
             Api.GetValue(PcanChannel.Usb01, PcanParameter.AllowEchoFrames, out string buff);
             Console.WriteLine(buff);
 
