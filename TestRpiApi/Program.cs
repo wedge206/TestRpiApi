@@ -46,15 +46,16 @@ namespace TestRpiApi
                 //Console.WriteLine("CAN Init Result: " + result.ToString());
 
                 canWorker.MessageAvailable += OnCanMessageAvailable;
-                canWorker.AddFilter(new FilteringCriterion()
-                {
-                    // TODO Add filters
-                });
+           //     canWorker.AddFilter(new FilteringCriterion()
+             //   {
+               //     // TODO Add filters
+                //});
                 canWorker.Start();
+                Console.WriteLine("handle point 1");
             }
             catch (Exception)
             {
-                Console.WriteLine("handle point 1");
+                Console.WriteLine("handle point 2");
                 throw;
             }
         }
