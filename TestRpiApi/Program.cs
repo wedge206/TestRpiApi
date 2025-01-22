@@ -32,17 +32,24 @@ namespace TestRpiApi
 
         private static void InitPcan()
         {
-            PcanStatus result = Api.Initialize(PcanChannel.Usb01, Bitrate.Pcan1000);
-
-            Console.WriteLine(result.ToString());
-
-            canWorker.MessageAvailable += OnCanMessageAvailable;
-            canWorker.AddFilter(new FilteringCriterion()
+            try
             {
-                // TODO Add filters
-            });
-            canWorker.Start();
+                PcanStatus result = Api.Initialize(PcanChannel.Usb01, Bitrate.Pcan1000);
 
+                Console.WriteLine("CAN Init Result: " + result.ToString());
+
+                canWorker.MessageAvailable += OnCanMessageAvailable;
+                canWorker.AddFilter(new FilteringCriterion()
+                {
+                    // TODO Add filters
+                });
+                canWorker.Start();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("handle point 1");
+                throw;
+            }
         }
 
         public static byte[] GetBytes()
