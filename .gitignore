@@ -1,3 +1,5 @@
 .vs/
 TestRpiApi/bin/
 TestRpiApi/obj/
+Receiver/bin/
+Receiver/obj/
