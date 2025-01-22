@@ -8,7 +8,8 @@ namespace TestRpiApi
         {
             TransmissionProtocol = Protocol.Can,
             BitrateCan = Bitrate.Pcan1000,
-            Channel = PcanChannel.Usb01
+            Channel = PcanChannel.Usb01,
+            AllowEchoFrames = false
         };
 
         static byte[] canBytes = new byte[8];
