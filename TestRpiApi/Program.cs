@@ -8,7 +8,7 @@ namespace TestRpiApi
         {
             BitrateCan = Bitrate.Pcan1000,
             Channel = PcanChannel.Usb01,
-            AllowEchoFrames = false
+            AllowEchoFrames = true
         };
 
         static byte[] canBytes = new byte[8];
