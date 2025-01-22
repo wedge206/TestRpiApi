@@ -25,6 +25,17 @@ namespace TestRpiApi
 
             app.MapControllers();
 
+            InitPcan();
+
+            app.Run();
+        }
+
+        private static void InitPcan()
+        {
+            PcanStatus result = Api.Initialize(PcanChannel.Usb01, Bitrate.Pcan1000);
+
+            Console.WriteLine(result.ToString());
+
             canWorker.MessageAvailable += OnCanMessageAvailable;
             canWorker.AddFilter(new FilteringCriterion()
             {
@@ -32,7 +43,6 @@ namespace TestRpiApi
             });
             canWorker.Start();
 
-            app.Run();
         }
 
         public static byte[] GetBytes()
