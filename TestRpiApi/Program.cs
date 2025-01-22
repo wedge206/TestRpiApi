@@ -8,7 +8,7 @@ namespace TestRpiApi
         {
             TransmissionProtocol = Protocol.Can,
             BitrateCan = Bitrate.Pcan1000,
-            Channel = PcanChannel.Usb02,
+            Channel = PcanChannel.Usb01,
             AllowEchoFrames = false,
             ListenOnly = true,
         };
