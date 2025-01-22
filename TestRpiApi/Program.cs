@@ -10,7 +10,7 @@ namespace TestRpiApi
             BitrateCan = Bitrate.Pcan1000,
             Channel = PcanChannel.Usb01,
             AllowEchoFrames = false,
-            ListenOnly = true
+            ListenOnly = true,
         };
 
         static byte[] canBytes = new byte[8];
@@ -45,7 +45,8 @@ namespace TestRpiApi
                 var w1 = new Worker()
                 {
                     BitrateCan = Bitrate.Pcan1000,
-                    Channel = PcanChannel.Usb01
+                    Channel = PcanChannel.Usb01,
+                    AllowEchoFrames = false,
                 };
 
                 w1.MessageAvailable += OnCanMessageAvailable;
@@ -79,8 +80,14 @@ namespace TestRpiApi
 
                 Console.WriteLine("Worker 2 pass");
             }
-            catch
+            catch (PcanBasicException e)
             {
+                Console.WriteLine($"worker 2: {e.Data}");
+                Console.WriteLine($"handle point 2: {e.Error}");
+                Console.WriteLine($"handle point 2: {e.Message}");
+                Console.WriteLine($"handle point 2: {e.ApiFunction}");
+                Console.WriteLine($"handle point 2: {e.InnerException}");
+                Console.WriteLine($"handle point 2: {e.HelpLink}");
                 Console.WriteLine("Worker 2 fail");
             }
 
