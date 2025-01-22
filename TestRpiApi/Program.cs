@@ -245,7 +245,7 @@ namespace TestRpiApi
             return canBytes;
         }
 
-        private static void OnCanMessageAvailable(object sender, MessageAvailableEventArgs e)
+        private static void OnCanMessageAvailable(object? sender, MessageAvailableEventArgs e)
         {
             while (canWorker.Dequeue(out var msg, out var timestamp))
             {
