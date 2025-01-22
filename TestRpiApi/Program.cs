@@ -9,7 +9,8 @@ namespace TestRpiApi
             TransmissionProtocol = Protocol.Can,
             BitrateCan = Bitrate.Pcan1000,
             Channel = PcanChannel.Usb01,
-            AllowEchoFrames = true
+            AllowEchoFrames = false,
+            ListenOnly = true
         };
 
         static byte[] canBytes = new byte[8];
@@ -60,6 +61,7 @@ namespace TestRpiApi
                 Console.WriteLine($"handle point 2: {e.Message}");
                 Console.WriteLine($"handle point 2: {e.ApiFunction}");
                 Console.WriteLine($"handle point 2: {e.InnerException}");
+                Console.WriteLine($"handle point 2: {e.HelpLink}");
                 throw;
             }
             catch (Exception)
