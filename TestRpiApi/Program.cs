@@ -9,7 +9,7 @@ namespace TestRpiApi
             TransmissionProtocol = Protocol.Can,
             BitrateCan = Bitrate.Pcan1000,
             Channel = PcanChannel.Usb01,
-            AllowEchoFrames = false
+            AllowEchoFrames = true
         };
 
         static byte[] canBytes = new byte[8];
@@ -50,7 +50,7 @@ namespace TestRpiApi
              //   {
                //     // TODO Add filters
                 //});
-                canWorker.Start();
+                canWorker.Start(false, false, true);
                 Console.WriteLine("handle point 1");
             }
             catch (Exception)
