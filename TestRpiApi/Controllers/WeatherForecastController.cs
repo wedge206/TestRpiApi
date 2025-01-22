@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Reflection;
 
 namespace TestRpiApi.Controllers
 {
@@ -22,13 +24,42 @@ namespace TestRpiApi.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var bytes = Program.GetBytes();
+            var forcastList = new List<WeatherForecast>()
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                new WeatherForecast()
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(bytes[0])),
+                    TemperatureC = bytes[0],
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                },
+                new WeatherForecast()
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(bytes[1])),
+                    TemperatureC = bytes[1],
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                },
+                new WeatherForecast()
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(bytes[2])),
+                    TemperatureC = bytes[2],
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                },
+                new WeatherForecast()
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(bytes[3])),
+                    TemperatureC = bytes[3],
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                },
+                new WeatherForecast()
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(bytes[4])),
+                    TemperatureC = bytes[4],
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                },
+            };
+
+            return forcastList;
         }
     }
 }
