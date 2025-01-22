@@ -6,11 +6,8 @@ namespace TestRpiApi
     {
         static Worker canWorker = new Worker()
         {
-            TransmissionProtocol = Protocol.Can,
             BitrateCan = Bitrate.Pcan1000,
-            Channel = PcanChannel.Usb01,
-            AllowEchoFrames = false,
-            ListenOnly = true,
+            Channel = PcanChannel.Usb01
         };
 
         static byte[] canBytes = new byte[8];
@@ -42,17 +39,12 @@ namespace TestRpiApi
         {
             try
             {
-                // PcanStatus result = Api.Initialize(PcanChannel.Usb01, Bitrate.Pcan1000);
-
-                //Console.WriteLine("CAN Init Result: " + result.ToString());
-
                 canWorker.MessageAvailable += OnCanMessageAvailable;
                 //     canWorker.AddFilter(new FilteringCriterion()
                 //   {
                 //     // TODO Add filters
                 //});
                 canWorker.Start(false, false, true);
-                Console.WriteLine("handle point 1");
             }
             catch (PcanBasicException e)
             {
