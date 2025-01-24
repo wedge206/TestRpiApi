@@ -34,7 +34,7 @@ namespace TestRpiApi
 
 
             app.MapControllers();
-            InitPcan();
+         //   InitPcan();
 
             app.Run();
         }
