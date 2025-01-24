@@ -16,10 +16,7 @@ namespace TestRpiApi
 
         public static void Main(string[] args)
         {
-            Api.SetValue(PcanChannel.Usb01, PcanParameter.AllowEchoFrames, 1);
-            Api.GetValue(PcanChannel.Usb01, PcanParameter.AllowEchoFrames, out uint buff);
-            Console.WriteLine(buff);
-
+          
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
