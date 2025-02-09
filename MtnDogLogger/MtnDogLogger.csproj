@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AprsSharp.AprsIsClient" Version="0.3.1" />
+    <PackageReference Include="AprsSharp.KissTnc" Version="0.3.1" />
+    <PackageReference Include="Peak.PCANBasic.NET" Version="4.9.0.942" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MtnDogShared\MtnDogShared.csproj" />
+  </ItemGroup>
+  
+</Project>

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AprsSharp.AprsIsClient" Version="0.3.1" />
+    <PackageReference Include="AprsSharp.KissTnc" Version="0.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MtnDogLogger\MtnDogLogger.csproj" />
+    <ProjectReference Include="..\MtnDogShared\MtnDogShared.csproj" />
+  </ItemGroup>
+
+</Project>

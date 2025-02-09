@@ -1,0 +1,6 @@
+@MtnDogLogger_HostAddress = http://localhost:5100
+
+GET {{MtnDogLogger_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
