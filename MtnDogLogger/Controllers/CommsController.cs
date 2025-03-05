@@ -118,21 +118,22 @@ namespace MtnDogLogger.Controllers
 
         [HttpPost]
         [Route("/logcompressed")]
-        public async Task PostLogMessageCompressed([FromBody] StreamContent encodedStream)
+        public async Task PostLogMessageCompressed([FromBody] GZipStream zippedStream)
         {
             var sw = Stopwatch.StartNew();
             Console.WriteLine("Incoming Compressed Log Message");
 
             // if (String.IsNullOrEmpty(encodedLogMessage))
-            if (encodedStream == null)
+            if (zippedStream == null)
             {
                 Console.WriteLine("Null stream");
                 return;
             }
 
+            
             using (var ms = new MemoryStream())
             {
-                using (var unzipped = new GZipStream(encodedStream.ReadAsStream(), CompressionMode.Decompress))
+                using (var unzipped = new GZipStream(zippedStream, CompressionMode.Decompress))
                 {
                     unzipped.CopyTo(ms);
                     var logList = Encoding.UTF8.GetString(ms.ToArray());
