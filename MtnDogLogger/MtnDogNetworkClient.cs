@@ -22,10 +22,14 @@ namespace MtnDogComms
                 {
                     var response = await ping.SendPingAsync("44.0.0.2", 10000);
 
+                    Console.WriteLine($"Ping result: {response.Status}");
+
                     if (response.Status != IPStatus.Success)
                     {
                         return null;  // All pings must pass to be a sucessful test
                     }
+
+                    await Task.Delay(1500);
                 }
 
                 return new HandshakeRequest()
