@@ -65,8 +65,10 @@ namespace MtnDogComms
             var json = JsonSerializer.Serialize(logMessageList);
 
             var encodedLog = String.Join(';', logMessageList);
+            var handler = new HttpClientHandler();
+            handler.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
 
-            var http = new HttpClient();
+            var http = new HttpClient(handler);
             http.Timeout = TimeSpan.FromMinutes(10);
             var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(json, Encoding.UTF8, "application/json"));
 
@@ -81,17 +83,26 @@ namespace MtnDogComms
 
             var json = JsonSerializer.Serialize(logMessageList);
 
+            var handler = new HttpClientHandler();
+            handler.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
 
-            var http = new HttpClient();
+            var http = new HttpClient(handler);
             http.Timeout = TimeSpan.FromMinutes(10);
 
-            using (var zipped = new GZipStream(new MemoryStream(Encoding.UTF8.GetBytes(json)), CompressionMode.Compress))
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
             {
-                var response = await http.PostAsync($"http://{targetIp}/logcompressed", new StreamContent(zipped));
+                var message = new HttpRequestMessage(HttpMethod.Post, "http://localhost:5100");
+                message.Content = new StreamContent(stream);
+                var response = await http.SendAsync(message);
+                //var response = await http.PostAsync($"http://{targetIp}/logcompressed", new StreamContent(zipped));
 
                 Console.WriteLine($"File sent.  status: {response.StatusCode}");
             }
         }
+        /// <summary>
+        /// }
+        /// </summary>
+        /// <returns></returns>
 
         public async Task SendLogProcessorAsync()
         {

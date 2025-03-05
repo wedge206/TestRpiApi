@@ -40,8 +40,8 @@ namespace MtnDogLogger.Controllers
             if (handshakeResult != null)
             {
                 Console.WriteLine("Handshake sucess");
-              //  await client.SendLogProcessorAsync(logList, targetIp);
-              doSending = true;
+                await client.SendLogProcessorAsync(logList, targetIp);
+              //doSending = true;
             }
             else
             {
@@ -50,7 +50,7 @@ namespace MtnDogLogger.Controllers
 
         }
 
-        private async void SendData(string targetIp = "44.0.0.2")
+        private async void SendData(string targetIp = "localhost:5100")
         {
             var client = new MtnDogNetworkClient();
 
