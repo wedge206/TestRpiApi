@@ -52,6 +52,8 @@ namespace MtnDogLogger.Controllers
         [Route("/log")]
         public async Task PostLogMessage([FromBody]string encodedLogMessage)
         {
+            Console.WriteLine("Incoming Log Message");
+
             var messageList = encodedLogMessage.Split(';').ToList();
 
             using (var logFile = new StreamWriter("mylog.txt", true))
@@ -60,6 +62,8 @@ namespace MtnDogLogger.Controllers
                 {
                     await logFile.WriteAsync(logMessage);
                 }
+
+                Console.WriteLine("Wrote to file 'mylog.txt'");
             }
         }
     }
