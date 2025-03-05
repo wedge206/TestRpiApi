@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
@@ -60,10 +61,12 @@ namespace MtnDogLogger.Controllers
                     var sw = Stopwatch.StartNew();
                     Console.WriteLine("starting send");
 
-                    await client.SendLogProcessorAsync(glogList, targetIp);
+                    await client.SendLogCompressedProcessorAsync(glogList, targetIp);
 
                     sw.Stop();
                     Console.WriteLine($"Total tx time: {sw.Elapsed}");
+
+                    doSending = false;
                 }
                 await Task.Delay(1000);
             } while (true);
@@ -129,18 +132,20 @@ namespace MtnDogLogger.Controllers
 
             using (var ms = new MemoryStream())
             {
-                encodedStream.ReadAsStream().CopyTo(ms);
-
-                var logList = Encoding.UTF8.GetString(ms.ToArray());
-
-                using (var logFile = new StreamWriter("mylog.unzipped.txt", true))
+                using (var unzipped = new GZipStream(encodedStream.ReadAsStream(), CompressionMode.Decompress))
                 {
-                    foreach (var logMessage in logList)
-                    {
-                        await logFile.WriteAsync(logMessage);
-                    }
+                    unzipped.CopyTo(ms);
+                    var logList = Encoding.UTF8.GetString(ms.ToArray());
 
-                    Console.WriteLine("Wrote to file 'mylog.txt'");
+                    using (var logFile = new StreamWriter("mylog.unzipped.txt", true))
+                    {
+                        foreach (var logMessage in logList)
+                        {
+                            await logFile.WriteAsync(logMessage);
+                        }
+
+                        Console.WriteLine("Wrote to file 'mylog.txt'");
+                    }
                 }
             }
 
