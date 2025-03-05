@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace MtnDogComms
 {
@@ -60,11 +61,13 @@ namespace MtnDogComms
             Console.WriteLine("Sending file");
             Console.WriteLine(logMessageList);
 
+            var json = JsonSerializer.Serialize(logMessageList);
+
             var encodedLog = String.Join(';', logMessageList);
 
             var http = new HttpClient();
 
-            var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(HtmlEncoder.Default.Encode(encodedLog), Encoding.UTF8, "application/json"));
+            var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(json, Encoding.UTF8, "application/json"));
 
             
             Console.WriteLine($"File sent.  status: {response.StatusCode}");

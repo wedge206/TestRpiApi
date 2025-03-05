@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using MtnDogComms;
 using MtnDogShared;
@@ -60,7 +61,8 @@ namespace MtnDogLogger.Controllers
                 return;
             }
 
-            var messageList = encodedLogMessage.Split(';').ToList();
+            var messageList = JsonSerializer.Deserialize<List<string>>(encodedLogMessage);
+         //   var messageList = encodedLogMessage.Split(';').ToList();
 
             using (var logFile = new StreamWriter("mylog.txt", true))
             {
