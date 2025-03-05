@@ -3,6 +3,7 @@ using MtnDogShared;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -71,6 +72,25 @@ namespace MtnDogComms
 
             
             Console.WriteLine($"File sent.  status: {response.StatusCode}");
+        }
+
+        public async Task SendLogCompressedProcessorAsync(List<string> logMessageList, string targetIp)
+        {
+            Console.WriteLine("Sending file");
+            Console.WriteLine(logMessageList);
+
+            var json = JsonSerializer.Serialize(logMessageList);
+
+
+            var http = new HttpClient();
+            http.Timeout = TimeSpan.FromMinutes(10);
+
+            using (var zipped = new GZipStream(new MemoryStream(Encoding.UTF8.GetBytes(json)), CompressionMode.Compress))
+            {
+                var response = await http.PostAsync($"http://{targetIp}/logcompressed", new StreamContent(zipped));
+
+                Console.WriteLine($"File sent.  status: {response.StatusCode}");
+            }
         }
 
         public async Task SendLogProcessorAsync()

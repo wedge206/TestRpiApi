@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using MtnDogComms;
@@ -107,6 +108,46 @@ namespace MtnDogLogger.Controllers
 
                 Console.WriteLine("Wrote to file 'mylog.txt'");
             }
+
+            sw.Stop();
+            Console.WriteLine($"Total rx time: {sw.Elapsed}");
+        }
+
+        [HttpPost]
+        [Route("/logcompressed")]
+        public async Task PostLogMessageCompressed([FromBody] StreamContent encodedStream)
+        {
+            var sw = Stopwatch.StartNew();
+            Console.WriteLine("Incoming Compressed Log Message");
+
+            // if (String.IsNullOrEmpty(encodedLogMessage))
+            if (encodedStream == null)
+            {
+                Console.WriteLine("Null stream");
+                return;
+            }
+
+            using (var ms = new MemoryStream())
+            {
+                encodedStream.ReadAsStream().CopyTo(ms);
+
+                var logList = Encoding.UTF8.GetString(ms.ToArray());
+
+                using (var logFile = new StreamWriter("mylog.unzipped.txt", true))
+                {
+                    foreach (var logMessage in logList)
+                    {
+                        await logFile.WriteAsync(logMessage);
+                    }
+
+                    Console.WriteLine("Wrote to file 'mylog.txt'");
+                }
+            }
+
+            //var messageList = JsonSerializer.Deserialize<List<string>>(encodedLogMessage);
+            //   var messageList = encodedLogMessage.Split(';').ToList();
+
+
 
             sw.Stop();
             Console.WriteLine($"Total rx time: {sw.Elapsed}");
