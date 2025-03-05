@@ -24,7 +24,7 @@ namespace MtnDogLogger.Controllers
             var logList = file.Split(';').ToList();
 
             var client = new MtnDogNetworkClient();
-            var handshakeResult = await client.PerformHandshake(DateTime.Now, 1, targetIp);
+            var handshakeResult = true;// await client.PerformHandshake(DateTime.Now, 1, targetIp);
 
             if (handshakeResult != null)
             {
