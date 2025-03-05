@@ -66,7 +66,7 @@ namespace MtnDogComms
             var encodedLog = String.Join(';', logMessageList);
 
             var http = new HttpClient();
-
+            http.Timeout = TimeSpan.FromMinutes(10);
             var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(json, Encoding.UTF8, "application/json"));
 
             
