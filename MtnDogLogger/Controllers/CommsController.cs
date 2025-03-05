@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace MtnDogLogger.Controllers
 
         [HttpPost]
         [Route("/file")]
-        public async Task PostSendFile([FromBody]string file, string targetIp = "44.0.0.2")
+        public async Task PostSendFile([FromBody]List<string> logList, string targetIp = "44.0.0.2")
         {
-            var logList = file.Split(';').ToList();
+            var sw = Stopwatch.StartNew();
 
             var client = new MtnDogNetworkClient();
             var handshakeResult = true;// await client.PerformHandshake(DateTime.Now, 1, targetIp);
@@ -35,6 +36,9 @@ namespace MtnDogLogger.Controllers
             {
                 Console.WriteLine("Failed to handshake");
             }
+
+            sw.Stop();
+            Console.WriteLine($"Total tx time: {sw.Elapsed}");
         }
 
         [HttpPost]
@@ -53,6 +57,7 @@ namespace MtnDogLogger.Controllers
         [Route("/log")]
         public async Task PostLogMessage([FromBody]List<string> encodedLogMessage)
         {
+            var sw = Stopwatch.StartNew();
             Console.WriteLine("Incoming Log Message");
 
            // if (String.IsNullOrEmpty(encodedLogMessage))
@@ -74,6 +79,9 @@ namespace MtnDogLogger.Controllers
 
                 Console.WriteLine("Wrote to file 'mylog.txt'");
             }
+
+            sw.Stop();
+            Console.WriteLine($"Total rx time: {sw.Elapsed}");
         }
     }
 }
