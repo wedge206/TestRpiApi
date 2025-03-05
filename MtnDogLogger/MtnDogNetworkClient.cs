@@ -68,7 +68,7 @@ namespace MtnDogComms
             var handler = new HttpClientHandler();
             handler.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
 
-            var http = new HttpClient(handler);
+            var http = new HttpClient();
             http.Timeout = TimeSpan.FromMinutes(10);
             var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(json, Encoding.UTF8, "application/json"));
 
