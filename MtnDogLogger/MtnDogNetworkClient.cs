@@ -60,7 +60,7 @@ namespace MtnDogComms
         public async Task SendLogProcessorAsync(List<string> logMessageList, string targetIp)
         {
             Console.WriteLine("Sending file");
-            Console.WriteLine(logMessageList);
+            var sw = Stopwatch.StartNew();
 
             var json = JsonSerializer.Serialize(logMessageList);
 
@@ -72,8 +72,9 @@ namespace MtnDogComms
             http.Timeout = TimeSpan.FromMinutes(10);
             var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(json, Encoding.UTF8, "application/json"));
 
-            
+            sw.Stop();
             Console.WriteLine($"File sent.  status: {response.StatusCode}");
+            Console.WriteLine($"Tx time: {sw.Elapsed}");
         }
 
         public async Task SendLogCompressedProcessorAsync(List<string> logMessageList, string targetIp)
