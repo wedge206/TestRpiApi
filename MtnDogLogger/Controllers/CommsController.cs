@@ -11,6 +11,14 @@ namespace MtnDogLogger.Controllers
 {
     public class CommsController : ControllerBase
     {
+        private bool doSending = false;
+        private List<string> glogList = new List<string>();
+
+        public CommsController()
+        {
+            SendData();
+        }
+
         [HttpGet]
         [Route("/test/{message}")]
         public string GetApiTest(string message)
@@ -22,7 +30,7 @@ namespace MtnDogLogger.Controllers
         [Route("/file")]
         public async Task PostSendFile([FromBody]List<string> logList, string targetIp = "44.0.0.2")
         {
-            var sw = Stopwatch.StartNew();
+            glogList = logList;
 
             var client = new MtnDogNetworkClient();
             var handshakeResult = true;// await client.PerformHandshake(DateTime.Now, 1, targetIp);
@@ -30,15 +38,35 @@ namespace MtnDogLogger.Controllers
             if (handshakeResult != null)
             {
                 Console.WriteLine("Handshake sucess");
-                await client.SendLogProcessorAsync(logList, targetIp);
+              //  await client.SendLogProcessorAsync(logList, targetIp);
+              doSending = true;
             }
             else
             {
                 Console.WriteLine("Failed to handshake");
             }
 
-            sw.Stop();
-            Console.WriteLine($"Total tx time: {sw.Elapsed}");
+        }
+
+        private async void SendData(string targetIp = "44.0.0.2")
+        {
+            var client = new MtnDogNetworkClient();
+
+            do
+            {
+                if (doSending)
+                {
+                    var sw = Stopwatch.StartNew();
+                    Console.WriteLine("starting send");
+
+                    await client.SendLogProcessorAsync(glogList, targetIp);
+
+                    sw.Stop();
+                    Console.WriteLine($"Total tx time: {sw.Elapsed}");
+                }
+                await Task.Delay(1000);
+            } while (true);
+
         }
 
         [HttpPost]
