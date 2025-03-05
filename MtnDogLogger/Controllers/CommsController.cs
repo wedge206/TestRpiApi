@@ -54,6 +54,12 @@ namespace MtnDogLogger.Controllers
         {
             Console.WriteLine("Incoming Log Message");
 
+            if (String.IsNullOrEmpty(encodedLogMessage))
+            {
+                Console.WriteLine("Null log file");
+                return;
+            }
+
             var messageList = encodedLogMessage.Split(';').ToList();
 
             using (var logFile = new StreamWriter("mylog.txt", true))
