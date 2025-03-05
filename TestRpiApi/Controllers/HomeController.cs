@@ -12,7 +12,7 @@ using SocketCANSharp.Network;
 
 namespace TestRpiApi.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         [HttpGet]
         [Route("/{value}")]
