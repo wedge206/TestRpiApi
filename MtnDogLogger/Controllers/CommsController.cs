@@ -19,7 +19,7 @@ namespace MtnDogLogger.Controllers
 
         [HttpPost]
         [Route("/file")]
-        public async Task PostSendFile([FromBody]string file, string targetIp = "192.168.0.86")
+        public async Task PostSendFile([FromBody]string file, string targetIp = "192.168.0.86:5100")
         {
             var logList = file.Split(';').ToList();
 
