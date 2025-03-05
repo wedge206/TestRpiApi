@@ -9,6 +9,13 @@ namespace MtnDogLogger.Controllers
 {
     public class CommsController : ControllerBase
     {
+        [HttpGet]
+        [Route("/test/{message}")]
+        public string GetApiTest(string message)
+        {
+            return $"Success: {message}";
+        }
+
         [HttpPost]
         [Route("/file")]
         public async Task PostSendFile([FromBody]string file)
