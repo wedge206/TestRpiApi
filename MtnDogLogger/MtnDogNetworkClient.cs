@@ -29,7 +29,7 @@ namespace MtnDogComms
                         return null;  // All pings must pass to be a sucessful test
                     }
 
-                    await Task.Delay(1500);
+                    await Task.Delay(500);
                 }
 
                 return new HandshakeRequest()
@@ -60,9 +60,9 @@ namespace MtnDogComms
             var encodedLog = String.Join(';', logMessageList);
 
             var http = new HttpClient();
-            http.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
-            http.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
-            var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(encodedLog));
+            //http.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
+            //http.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
+            var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(encodedLog, Encoding.UTF8, "application/json"));
 
             
             Console.WriteLine($"File sent.  status: {response.StatusCode}");
