@@ -60,8 +60,10 @@ namespace MtnDogComms
             var encodedLog = String.Join(';', logMessageList);
 
             var http = new HttpClient();
-            await http.PostAsync($"http://{targetIp}/log", new StringContent(encodedLog));
-            Console.WriteLine("File sent");
+            var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(encodedLog));
+
+            
+            Console.WriteLine($"File sent.  status: {response.StatusCode}");
         }
 
         public async Task SendLogProcessorAsync()
