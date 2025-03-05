@@ -51,22 +51,23 @@ namespace MtnDogLogger.Controllers
 
         [HttpPost]
         [Route("/log")]
-        public async Task PostLogMessage([FromBody]string encodedLogMessage)
+        public async Task PostLogMessage([FromBody]List<string> encodedLogMessage)
         {
             Console.WriteLine("Incoming Log Message");
 
-            if (String.IsNullOrEmpty(encodedLogMessage))
+           // if (String.IsNullOrEmpty(encodedLogMessage))
+           if (encodedLogMessage == null)
             {
                 Console.WriteLine("Null log file");
                 return;
             }
 
-            var messageList = JsonSerializer.Deserialize<List<string>>(encodedLogMessage);
+            //var messageList = JsonSerializer.Deserialize<List<string>>(encodedLogMessage);
          //   var messageList = encodedLogMessage.Split(';').ToList();
 
             using (var logFile = new StreamWriter("mylog.txt", true))
             {
-                foreach (var logMessage in messageList)
+                foreach (var logMessage in encodedLogMessage)
                 {
                     await logFile.WriteAsync(logMessage);
                 }
