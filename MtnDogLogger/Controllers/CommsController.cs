@@ -11,7 +11,7 @@ namespace MtnDogLogger.Controllers
     {
         [HttpPost]
         [Route("/file")]
-        public async Task PostSendFile(string file)
+        public async Task PostSendFile([FromBody]string file)
         {
             var logList = file.Split(';').ToList();
 
@@ -30,7 +30,7 @@ namespace MtnDogLogger.Controllers
         }
 
         [HttpPost]
-        public HandshakeResponse PostHandshakeRequest(HandshakeRequest request)
+        public HandshakeResponse PostHandshakeRequest([FromBody]HandshakeRequest request)
         {
             return new HandshakeResponse()
             {
@@ -43,7 +43,7 @@ namespace MtnDogLogger.Controllers
 
         [HttpPost]
         [Route("/log")]
-        public async Task PostLogMessage(string encodedLogMessage)
+        public async Task PostLogMessage([FromBody]string encodedLogMessage)
         {
             var messageList = encodedLogMessage.Split(';').ToList();
 
