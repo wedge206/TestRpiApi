@@ -11,7 +11,7 @@ namespace MtnDogComms
 {
     internal class MtnDogNetworkClient 
     {
-        public async Task<HandshakeRequest> PerformHandshake(DateTime startTime, int packetCount)
+        public async Task<HandshakeRequest> PerformHandshake(DateTime startTime, int packetCount, string targetIp)
         {
             // Using TCP/IP, we just do a simple ping test as the handshake
             using (var ping = new Ping())
@@ -20,7 +20,7 @@ namespace MtnDogComms
 
                 while (pingCount++ < 4)
                 {
-                    var response = await ping.SendPingAsync("44.0.0.2", 10000);
+                    var response = await ping.SendPingAsync(targetIp, 10000);
 
                     Console.WriteLine($"Ping result: {response.Status}");
 
@@ -54,12 +54,12 @@ namespace MtnDogComms
             };
         }
 
-        public async Task SendLogProcessorAsync(List<string> logMessageList)
+        public async Task SendLogProcessorAsync(List<string> logMessageList, string targetIp)
         {
             var encodedLog = String.Join(';', logMessageList);
 
             var http = new HttpClient();
-            await http.PostAsync("http://44.0.0.2/log", new StringContent(encodedLog));
+            await http.PostAsync($"http://{targetIp}/log", new StringContent(encodedLog));
         }
 
         public async Task SendLogProcessorAsync()

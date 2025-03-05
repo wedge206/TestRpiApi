@@ -18,17 +18,17 @@ namespace MtnDogLogger.Controllers
 
         [HttpPost]
         [Route("/file")]
-        public async Task PostSendFile([FromBody]string file)
+        public async Task PostSendFile([FromBody]string file, string targetIp = "44.0.0.2")
         {
             var logList = file.Split(';').ToList();
 
             var client = new MtnDogNetworkClient();
-            var handshakeResult = await client.PerformHandshake(DateTime.Now, 1);
+            var handshakeResult = await client.PerformHandshake(DateTime.Now, 1, targetIp);
 
             if (handshakeResult != null)
             {
                 Console.WriteLine("Handshake sucess");
-                await client.SendLogProcessorAsync(logList);
+                await client.SendLogProcessorAsync(logList, targetIp);
             }
             else
             {
