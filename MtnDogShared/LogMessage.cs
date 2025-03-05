@@ -4,6 +4,8 @@
     {
         private const int length = 43;
 
+        public string Prefix { get; set; } = "";
+
         // Seconds
         public decimal TimeStamp { get; set; }
 
@@ -36,10 +38,6 @@
         public int VehicleSpeed { get; set; }
 
         public int PacketNumber { get; set; }
-
-        public string Prefix { get; set; } = "";
-
-        public string Suffix { get; set; } = "";
 
         public string EncodeMessage()
         {

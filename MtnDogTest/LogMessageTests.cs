@@ -327,9 +327,11 @@ namespace MtnDogTest
 
             var logComplete = new LogTxComplete(team, num);
 
-            var testMessage = "0909090900000000testTeam0000005101010101";
+            var testMessage = "QSL00000000testTeam00000051";
 
             var decodedMessage = LogTxComplete.Decode(testMessage);
+
+            Assert.IsNotNull(decodedMessage);
 
             Assert.AreEqual(logComplete, decodedMessage);
             Assert.AreEqual(team, decodedMessage.TeamName);

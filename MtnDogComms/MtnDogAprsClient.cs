@@ -51,7 +51,7 @@ namespace MtnDogComms
                 {
                     var message = Encoding.ASCII.GetString(frame.ToArray());
 
-                    if (message.Substring(0, 8) == HandshakeRequest.prefix.ToString() && message.Substring(message.Length - 8, 8) == HandshakeRequest.suffix.ToString())
+                    if (message.Substring(0, 8) == HandshakeRequest.prefix.ToString())
                     {
                         SendHandshakeResponse(HandshakeRequest.Decode(message));
                     }

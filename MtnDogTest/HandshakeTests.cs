@@ -22,7 +22,6 @@ namespace MtnDogTest
             var t2 = decoded.StartTime.TimeOfDay;
 
             Assert.AreEqual(request.Prefix, decoded.Prefix);
-            Assert.AreEqual(request.Suffix, decoded.Suffix);
 
             Assert.AreEqual(request.StartTime.Date, decoded.StartTime.Date);
             Assert.AreEqual(request.StartTime, decoded.StartTime);

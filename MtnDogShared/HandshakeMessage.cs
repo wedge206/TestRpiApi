@@ -2,11 +2,11 @@
 {
     public abstract class HandshakeMessage<T> : IHandshakeMessage, IMessage<T> where T : IHandshakeMessage, new()
     {
+        public const string prefix = "QRV";
+
         public const string teamName = "MtnDogRally";
 
         public string Prefix { get; set; }
-
-        public string Suffix { get; set; }
 
         public string TeamName { get; set; } = teamName;
 
@@ -14,10 +14,9 @@
 
         public int PacketCount { get; set; }
 
-        public HandshakeMessage(string prefix, string suffix)
+        public HandshakeMessage(string prefix = prefix)
         {
             Prefix = prefix;
-            Suffix = suffix;
         }
 
         public string EncodeMessage()
@@ -25,8 +24,7 @@
             return Prefix
                 + TeamName
                 + EncodeDatetime(StartTime)
-                + EncodePacketCount(PacketCount)
-                + Suffix;
+                + EncodePacketCount(PacketCount);
         }
 
         private string EncodeDatetime(DateTime dt)
@@ -134,7 +132,7 @@
                 return false;
             }
 
-            if (message.StartsWith(Prefix.ToString()) && message.EndsWith(Suffix.ToString()))
+            if (message.StartsWith(Prefix.ToString()))
             {
                 return true;
             }
