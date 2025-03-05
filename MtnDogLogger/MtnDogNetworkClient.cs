@@ -60,7 +60,7 @@ namespace MtnDogComms
             var encodedLog = String.Join(';', logMessageList);
 
             var http = new HttpClient();
-            http.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/text");
+            http.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
             var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(encodedLog));
 
             
