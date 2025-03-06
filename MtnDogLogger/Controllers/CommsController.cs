@@ -39,8 +39,8 @@ namespace MtnDogLogger.Controllers
 
             if (handshakeResult != null)
             {
-                Console.WriteLine("Handshake sucess");
-                await client.SendLogProcessorAsync(logList, targetIp);
+                Console.WriteLine("Handshake success");
+                await client.SendLogStreamProcessorAsync(logList, targetIp);
               //doSending = true;
             }
             else
@@ -86,7 +86,8 @@ namespace MtnDogLogger.Controllers
         }
 
         [HttpPost]
-        [Route("/log")]
+        //[Route("/log")]
+        [Route("/stream")]
         public async Task PostLogMessage([FromBody]List<string> encodedLogMessage)
         {
             var sw = Stopwatch.StartNew();

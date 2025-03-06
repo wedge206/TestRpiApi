@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -12,7 +13,7 @@ using System.Text.Json;
 
 namespace MtnDogComms
 {
-    internal class MtnDogNetworkClient 
+    internal class MtnDogNetworkClient
     {
         public async Task<HandshakeRequest> PerformHandshake(DateTime startTime, int packetCount, string targetIp)
         {
@@ -53,7 +54,7 @@ namespace MtnDogComms
                 Prefix = request.Prefix,
                 TeamName = request.TeamName,
                 StartTime = request.StartTime,
-                PacketCount= request.PacketCount
+                PacketCount = request.PacketCount
             };
         }
 
@@ -65,10 +66,8 @@ namespace MtnDogComms
             var json = JsonSerializer.Serialize(logMessageList);
 
             var encodedLog = String.Join(';', logMessageList);
-            var handler = new HttpClientHandler();
-            handler.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
 
-            var http = new HttpClient(handler);
+            var http = new HttpClient();
             http.Timeout = TimeSpan.FromMinutes(10);
             var response = await http.PostAsync($"http://{targetIp}/log", new StringContent(json, Encoding.UTF8, "application/json"));
 
@@ -77,17 +76,46 @@ namespace MtnDogComms
             Console.WriteLine($"Tx time: {sw.Elapsed}");
         }
 
+        public async Task SendLogStreamProcessorAsync(List<string> logMessageList, string targetIp)
+        {
+            Console.WriteLine("Sending log stream");
+            var sw = Stopwatch.StartNew();
+
+            using (var stream = new MemoryStream())
+            {
+                await JsonSerializer.SerializeAsync(stream, logMessageList);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                using (var content = new StreamContent(stream))
+                using (var client = new HttpClient())
+                {
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                    var response = await client.PostAsync($"http://{targetIp}/stream", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine("Tx Complete");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Tx Failed");
+                    }
+                }
+            }
+
+            sw.Stop();
+            Console.WriteLine($"Total Tx time: {sw.Elapsed}");
+        }
+
         public async Task SendLogCompressedProcessorAsync(List<string> logMessageList, string targetIp)
         {
             Console.WriteLine("Sending file");
-            Console.WriteLine(logMessageList);
+            var sw = Stopwatch.StartNew();
 
             var json = JsonSerializer.Serialize(logMessageList);
 
-            var handler = new HttpClientHandler();
-            handler.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
-
-            var http = new HttpClient(handler);
+            var http = new HttpClient();
             http.Timeout = TimeSpan.FromMinutes(10);
 
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
@@ -98,6 +126,7 @@ namespace MtnDogComms
                 //var response = await http.PostAsync($"http://{targetIp}/logcompressed", new StreamContent(zipped));
 
                 Console.WriteLine($"File sent.  status: {response.StatusCode}");
+                Console.WriteLine($"Tx time: {sw.Elapsed}");
             }
         }
         /// <summary>
