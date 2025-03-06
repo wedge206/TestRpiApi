@@ -87,7 +87,7 @@ namespace MtnDogComms
                 stream.Seek(0, SeekOrigin.Begin);
 
                 using (var content = new StreamContent(stream))
-                using (var client = new HttpClient())
+                using (var client = new HttpClient() { Timeout = TimeSpan.FromMinutes(10) })
                 {
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
