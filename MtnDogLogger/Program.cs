@@ -1,5 +1,6 @@
 using SocketCANSharp;
 using SocketCANSharp.Network;
+using SocketCANSharp.Network.BroadcastManagement;
 using SocketCANSharp.Network.Netlink;
 
 namespace MtnDogLogger
@@ -36,7 +37,7 @@ namespace MtnDogLogger
 
         private static void ConfigureSocketCAN()
         {
-            var can0 = CanNetworkInterface.GetAllInterfaces(false).First();
+            var can0 = CanNetworkInterface.GetAllInterfaces(false).First(iface => iface.Name.Equals("can0"));
 
             //foreach (var iface in allCan)
             //{
@@ -54,6 +55,23 @@ namespace MtnDogLogger
             can0.SetLinkUp();
 
             Console.WriteLine($"Name: {can0.Name}, Status: {can0.OperationalStatus}");
+
+            using (var bcmSocket = new BcmCanSocket())
+            {
+                bcmSocket.Connect(can0);
+
+                var canFrame = new CanFrame(0x333, new byte[] { 0xDE, 0xAD, 0xBE, 0xEF });
+                var frames = new CanFrame[] { canFrame };
+                var config = new BcmCyclicTxTaskConfiguration()
+                {
+                    Id = 0x333,
+                    StartTimer = true,
+                    SetInterval = true,
+                    InitialIntervalConfiguration = new BcmInitialIntervalConfiguration(10, new BcmTimeval(0, 5000)), // 10 messages at 5 ms
+                    PostInitialInterval = new BcmTimeval(0, 100000), // Then at 100 ms
+                };
+                int nBytes = bcmSocket.CreateCyclicTransmissionTask(config, frames);
+            }
 
 
             using (var socket = new RawCanSocket())
