@@ -60,7 +60,7 @@ namespace MtnDogLogger
             {
                 bcmSocket.Connect(can0);
 
-                var canFrame = new CanFrame(0x333, new byte[] { 0xDE, 0xAD, 0xBE, 0xEF });
+                var canFrame = new CanFrame(0x333, new byte[] { 0xDE, 0xAD, 0xBE, 0xEF, 0xDE, 0xAD, 0xBE, 0xEF });
                 var frames = new CanFrame[] { canFrame };
                 var config = new BcmCyclicTxTaskConfiguration()
                 {
