@@ -1,5 +1,6 @@
 using SocketCANSharp;
 using SocketCANSharp.Network;
+using SocketCANSharp.Network.Netlink;
 
 namespace MtnDogLogger
 {
@@ -30,17 +31,29 @@ namespace MtnDogLogger
 
             app.MapControllers();
 
-            app.Run();
+           // app.Run();
         }
 
         private static void ConfigureSocketCAN()
         {
-            var allCan = CanNetworkInterface.GetAllInterfaces(false);
+            var can0 = CanNetworkInterface.GetAllInterfaces(false).First();
 
-            foreach (var iface in allCan)
-            {
-                Console.WriteLine($"Name: {iface.Name}, Status: {iface.OperationalStatus}");
-            }
+            //foreach (var iface in allCan)
+            //{
+                Console.WriteLine($"Name: {can0.Name}, Status: {can0.OperationalStatus}");
+            //}
+            can0.SetLinkDown();
+
+            Console.WriteLine($"Name: {can0.Name}, Status: {can0.OperationalStatus}");
+
+            can0.BitTiming = new CanBitTiming() { BitRate = 125000 };
+            can0.CanControllerModeFlags = CanControllerModeFlags.CAN_CTRLMODE_LOOPBACK | CanControllerModeFlags.CAN_CTRLMODE_ONE_SHOT;
+            can0.AutoRestartDelay = 5;
+            can0.MaximumTransmissionUnit = SocketCanConstants.CAN_MTU;
+
+            can0.SetLinkUp();
+
+            Console.WriteLine($"Name: {can0.Name}, Status: {can0.OperationalStatus}");
         }
     }
 }
