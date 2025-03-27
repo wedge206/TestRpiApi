@@ -83,7 +83,11 @@ namespace MtnDogComms
 
             using (var stream = new MemoryStream())
             {
-                await JsonSerializer.SerializeAsync(stream, logMessageList);
+
+                Encoding.UTF8.GetBytes(JsonSerializer.Serialize(logMessageList));
+
+
+               // await JsonSerializer.SerializeAsync(stream, logMessageList);
                 stream.Seek(0, SeekOrigin.Begin);
 
                 using (var content = new StreamContent(stream))

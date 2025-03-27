@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AprsSharp.AprsIsClient" Version="0.3.1" />
-    <PackageReference Include="AprsSharp.KissTnc" Version="0.3.1" />
-    <PackageReference Include="Peak.PCANBasic.NET" Version="4.9.0.942" />
+    <PackageReference Include="AprsSharp.AprsIsClient" Version="0.3.2" />
+    <PackageReference Include="AprsSharp.KissTnc" Version="0.3.2" />
+    <PackageReference Include="Peak.PCANBasic.NET" Version="4.10.1.968" />
     <PackageReference Include="SocketCANSharp" Version="0.12.0" />
   </ItemGroup>
 
