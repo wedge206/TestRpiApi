@@ -54,6 +54,24 @@ namespace MtnDogLogger
             can0.SetLinkUp();
 
             Console.WriteLine($"Name: {can0.Name}, Status: {can0.OperationalStatus}");
+
+
+            using (var socket = new RawCanSocket())
+            {
+                socket.Bind(can0);
+                var bytes = socket.Read(out CanFrame frame);
+
+                Console.WriteLine("Read Bytes:" + bytes);
+                Console.WriteLine("Byte0:" + frame.Data[0]);
+                Console.WriteLine("Byte1:" + frame.Data[1]);
+                Console.WriteLine("Byte2:" + frame.Data[2]);
+                Console.WriteLine("Byte3:" + frame.Data[3]);
+                Console.WriteLine("Byte4:" + frame.Data[4]);
+                Console.WriteLine("Byte5:" + frame.Data[5]);
+                Console.WriteLine("Byte6:" + frame.Data[6]);
+                Console.WriteLine("Byte7:" + frame.Data[7]);
+                
+            }
         }
     }
 }
