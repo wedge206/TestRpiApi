@@ -48,7 +48,7 @@ namespace MtnDogLogger
             Console.WriteLine($"Name: {can0.Name}, Status: {can0.OperationalStatus}");
 
             can0.BitTiming = new CanBitTiming() { BitRate = 1000000 };
-            can0.CanControllerModeFlags = CanControllerModeFlags.CAN_CTRLMODE_LOOPBACK | CanControllerModeFlags.CAN_CTRLMODE_ONE_SHOT;
+            can0.CanControllerModeFlags = CanControllerModeFlags.CAN_CTRLMODE_TDC_AUTO | CanControllerModeFlags.CAN_CTRLMODE_PRESUME_ACK;
             can0.AutoRestartDelay = 5;
             can0.MaximumTransmissionUnit = SocketCanConstants.CAN_MTU;
 
