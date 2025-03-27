@@ -60,8 +60,9 @@ namespace MtnDogLogger
             {
                 socket.Bind(can0);
                 var bytes = socket.Read(out CanFrame frame);
-
+                
                 Console.WriteLine("Read Bytes:" + bytes);
+                Console.WriteLine("CAN ID:" + frame.CanId);
                 Console.WriteLine("Byte0:" + frame.Data[0]);
                 Console.WriteLine("Byte1:" + frame.Data[1]);
                 Console.WriteLine("Byte2:" + frame.Data[2]);
