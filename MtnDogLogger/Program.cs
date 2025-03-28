@@ -1,4 +1,5 @@
 using SocketCANSharp;
+using SocketCANSharp.Capabilities;
 using SocketCANSharp.Network;
 using SocketCANSharp.Network.BroadcastManagement;
 using SocketCANSharp.Network.Netlink;
@@ -46,9 +47,15 @@ namespace MtnDogLogger
             can0.SetLinkDown();
 
             Console.WriteLine($"Name: {can0.Name}, Status: {can0.OperationalStatus}");
+            
+            if (!CapabilityUtils.IsCurrentProcessCapable(Capability.CAP_NET_ADMIN))
+            {
+                throw new Exception("missing permission");
+            }
 
             can0.BitTiming = new CanBitTiming() { BitRate = 1000000 };
-            //can0.CanControllerModeFlags = CanControllerModeFlags.CAN_CTRLMODE_3_SAMPLES | CanControllerModeFlags.CAN_CTRLMODE_CC_LEN8_DLC | CanControllerModeFlags.CAN_CTRLMODE_PRESUME_ACK;
+            
+            can0.CanControllerModeFlags = CanControllerModeFlags.CAN_CTRLMODE_3_SAMPLES | CanControllerModeFlags.CAN_CTRLMODE_CC_LEN8_DLC | CanControllerModeFlags.CAN_CTRLMODE_PRESUME_ACK;
             can0.AutoRestartDelay = 5;
             can0.MaximumTransmissionUnit = SocketCanConstants.CAN_MTU;
 
@@ -64,12 +71,11 @@ namespace MtnDogLogger
                 var frames = new CanFrame[] { canFrame };
                 var config = new BcmCyclicTxTaskConfiguration()
                 {
-                    Id = 0x0,
+                    Id = 0x333,
                     StartTimer = true,
                     SetInterval = true,
                     InitialIntervalConfiguration = new BcmInitialIntervalConfiguration(0, new BcmTimeval(0, 0)), // 10 messages at 5 ms
                     PostInitialInterval = new BcmTimeval(0, 100000), // Then at 100 ms
-                    CopyCanIdInHeaderToEachCanFrame = true,
                     
                 };
                 int nBytes = bcmSocket.CreateCyclicTransmissionTask(config, frames);
