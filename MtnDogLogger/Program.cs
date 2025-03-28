@@ -64,12 +64,13 @@ namespace MtnDogLogger
                 var frames = new CanFrame[] { canFrame };
                 var config = new BcmCyclicTxTaskConfiguration()
                 {
-                    Id = 0x333,
+                    Id = 0x0,
                     StartTimer = true,
                     SetInterval = true,
                     InitialIntervalConfiguration = new BcmInitialIntervalConfiguration(0, new BcmTimeval(0, 0)), // 10 messages at 5 ms
                     PostInitialInterval = new BcmTimeval(0, 100000), // Then at 100 ms
                     CopyCanIdInHeaderToEachCanFrame = true,
+                    
                 };
                 int nBytes = bcmSocket.CreateCyclicTransmissionTask(config, frames);
             }
